@@ -73,6 +73,13 @@
               { value: 225, color: "red" },
             ],
           },
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 10,
+              boxHeight: 10,
+            }
+          }
         },
       },
     });

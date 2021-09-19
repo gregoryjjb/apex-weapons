@@ -1,8 +1,10 @@
 export enum AmmoType {
-  Heavy = "heavy",
-  Light = "light",
-  Shotgun = "shotgun",
-  Energy = "energy",
+  Heavy = 'heavy',
+  Light = 'light',
+  Shotgun = 'shotgun',
+  Energy = 'energy',
+  Sniper = 'sniper',
+  Heirloom = 'heirloom'
 }
 
 export type DamagePoint = [number, number];
@@ -21,5 +23,5 @@ export type Weapon = {
     purple?: number;
   };
   curves: DamageCurveSet;
-  curveName?: (key: string) => string,
+  curveName?: (key: string) => string;
 };

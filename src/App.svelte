@@ -45,7 +45,7 @@
     const w = weapons[weapon];
     if (w.curveName !== undefined) return w.curveName(option);
     return option;
-  }
+  };
 
   const wghash: Partial<Record<AmmoType, WeaponKey[]>> = {};
   let wk: WeaponKey;
@@ -69,58 +69,68 @@
 
 <main>
   <div class="header">
-    <h1>Apex Legends weapon damage charts</h1>
+    <h1>
+      <img src="/images/apex-legends.svg" alt="Apex Legends" />
+      <span>Weapon damage visualization</span>
+    </h1>
   </div>
   <div class="columns">
     <div class="left">
-      <div>
-        <h2>Weapons</h2>
-        <button on:click={clearSelections}>Clear selections</button>
+      <div class="weapon-selections">
+        <div class="weapons-header">
+          <h2>Weapons</h2>
+          <button on:click={clearSelections}>Clear selections</button>
+        </div>
         <ul class="category-list">
           {#each weaponGroups as group}
-            <li class="category-item" style="border-color: {ammoColors[group.name] || 'grey'}">
-              <h3 class="category-title">{group.name}</h3>
-              <ul class="weapons-list">
-                {#each group.weapons as weapon}
-                  <li>
-                    <label>
-                      <input
-                        type="checkbox"
-                        bind:checked={selections[weapon].enabled}
-                        on:change={handleWeaponSelected(weapon)}
-                      />
-                      {weapons[weapon].name}
-                      {#if selections[weapon].enabled && hasOptions(weapon)}
-                        <ul class="variant-list">
-                          {#each Object.keys(selections[weapon].options) as option}
-                            <li>
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  bind:checked={selections[weapon].options[
-                                    option
-                                  ]}
-                                  on:change={handleOptionSelected(
-                                    weapon,
-                                    option
-                                  )}
-                                />
-                                {getWeaponCurveName(weapon, option)}
-                              </label>
-                            </li>
-                          {/each}
-                        </ul>
-                      {/if}
-                    </label>
-                  </li>
-                {/each}
-              </ul>
+            <li class="category-item">
+              <div
+                class="category-item-display"
+                style="border-color: {ammoColors[group.name] || 'grey'}"
+              >
+                <h3 class="category-title">{group.name}</h3>
+                <ul class="weapons-list">
+                  {#each group.weapons as weapon}
+                    <li>
+                      <label>
+                        <input
+                          type="checkbox"
+                          bind:checked={selections[weapon].enabled}
+                          on:change={handleWeaponSelected(weapon)}
+                        />
+                        {weapons[weapon].name}
+                        {#if selections[weapon].enabled && hasOptions(weapon)}
+                          <ul class="variant-list">
+                            {#each Object.keys(selections[weapon].options) as option}
+                              <li>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    bind:checked={selections[weapon].options[
+                                      option
+                                    ]}
+                                    on:change={handleOptionSelected(
+                                      weapon,
+                                      option
+                                    )}
+                                  />
+                                  {getWeaponCurveName(weapon, option)}
+                                </label>
+                              </li>
+                            {/each}
+                          </ul>
+                        {/if}
+                      </label>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
             </li>
           {/each}
         </ul>
       </div>
-      <div>
-        <h2>Display options</h2>
+      <div class="option-selections">
+        <h2 class="options-header">Display options</h2>
         <label>
           <input type="checkbox" bind:checked={limitToKilled} />
           Limit to killing shot
@@ -138,7 +148,6 @@
 </main>
 
 <style>
-
   main {
     /* text-align: center; */
     padding: 0;
@@ -150,15 +159,48 @@
   }
 
   .header {
-    height: 8rem;
+    padding: 1rem;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+  .header > h1 {
+    /* color: #ff3e00; */
+    /* text-transform: uppercase; */
+    font-size: 2rem;
+    font-weight: 200;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .header > h1 > img {
+    height: 3rem;
+    vertical-align: middle;
+    margin-right: 1rem;
+  }
+
+  .header > h1 > span {
+    vertical-align: middle;
+  }
+
+  @media (max-width: 720px) {
+    .header {
+      padding: 0.5rem;
+    }
+
+    .header > h1 {
+      font-size: 1.25rem;
+    }
+
+    .header > h1 > img {
+      height: 2rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    color: #444;
+    font-weight: 600;
   }
 
   .columns {
@@ -172,33 +214,97 @@
   .left {
     text-align: left;
     flex-shrink: 0;
-    width: 20rem;
-    padding: 2rem;
+    width: 16rem;
+    padding: 1rem 2rem;
     overflow-y: auto;
   }
 
   .right {
     flex: 1;
     min-width: 0;
+    padding: 2rem;
+  }
+
+  .weapon-selections {
+    margin-bottom: 2rem;
+  }
+
+  .weapons-header {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  .weapons-header > h2 {
+    flex: 1;
+  }
+
+  .options-header {
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 720px) {
+    .columns {
+      flex-direction: column;
+    }
+
+    .left {
+      width: auto;
+      height: 50%;
+      flex: 1;
+      padding: 0.5rem 1rem;
+    }
+
+    .right {
+      height: 50%;
+      padding: 1rem;
+    }
   }
 
   .category-list {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+
+    /* Grid stuff */
+    margin: -1rem;
   }
 
   .category-item {
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .category-item-display {
     border-left: 2px solid;
     border-top: 1px solid;
     padding-left: 1rem;
     padding-top: 0.75rem;
-    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .category-list {
+      flex-wrap: wrap;
+      flex-direction: row;
+      margin: -0.5rem;
+    }
+
+    .category-item {
+      width: 50%;
+      padding: 0.5rem;
+    }
+    
+    .category-item-display {
+      padding-left: 0.5rem;
+      padding-top: 0.25rem;
+    }
   }
 
   .category-title {
     text-transform: uppercase;
     margin: 0;
     margin-bottom: 0.5rem;
+    font-weight: 600;
   }
 
   .weapons-list {
@@ -211,7 +317,17 @@
     padding-left: 2rem;
   }
 
-  @media (min-width: 640px) {
+  @media (max-width: 720px) {
+    .weapons-list {
+      padding-left: 0.5rem;
+    }
+
+    .variant-list {
+      padding-left: 1rem;
+    }
+  }
+
+  @media (min-width: 720px) {
     main {
       max-width: none;
     }

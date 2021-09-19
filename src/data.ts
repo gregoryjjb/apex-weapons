@@ -1,10 +1,10 @@
-import type { ChartDataset } from "chart.js";
-import type { WeaponKey } from "./weapons";
+import type { ChartDataset } from 'chart.js';
+import type { WeaponKey } from './weapons';
 import type { AmmoType, DamageCurve, DamageCurveSet } from './types';
 
-import weapons from "./weapons";
+import weapons from './weapons';
 
-const round = (n) => Math.round(n * 10000) / 10000;
+const round = n => Math.round(n * 10000) / 10000;
 
 export const simple = (
   damage: number,
@@ -26,8 +26,8 @@ export const simple = (
   return damageOverTime;
 };
 
-export const magazineVariants = (damage, rpm) => (magMap) => {
-  return Object.keys(magMap).map((name) => {
+export const magazineVariants = (damage, rpm) => magMap => {
+  return Object.keys(magMap).map(name => {
     return {
       name,
       curve: simple(damage, rpm, magMap[name]),
@@ -45,7 +45,7 @@ export const rpmVariants =
   (rpmMap: VariantSet): DamageCurveSet => {
     const result: DamageCurveSet = { base: [] };
 
-    Object.keys(rpmMap).forEach((name) => {
+    Object.keys(rpmMap).forEach(name => {
       result[name] = simple(damage, rpmMap[name], magazineSize);
     });
 
@@ -85,37 +85,57 @@ export const buildSelectionData = (): WeaponSelections => {
 };
 
 export const ammoColors: Record<AmmoType, string> = {
-  heavy: "#6BCFA9",
-  light: "orange",
-  shotgun: "red",
-  energy: "lime",
+  heavy: '#6BCFA9',
+  light: 'orange',
+  shotgun: 'red',
+  energy: 'lime',
+  sniper: 'purple',
+  heirloom: '#ff4e1d',
 };
 
 const variantColors = {
-  base: "darkgrey",
-  white: "grey",
-  blue: "blue",
-  purple: "purple",
-  turbo: "gold", //"#cead21",
+  base: 'darkgrey',
+  white: 'grey',
+  blue: 'blue',
+  purple: 'purple',
+  turbo: 'gold', //"#cead21",
 };
 
-export const getWeaponCurveName = (weaponKey: WeaponKey, curveKey: string): string => {
+export const getWeaponCurveName = (
+  weaponKey: WeaponKey,
+  curveKey: string
+): string => {
   const weapon = weapons[weaponKey];
 
   return weapon.curveName?.(curveKey) || curveKey;
-}
+};
+
+const colors = [
+  '#377eb8',
+  '#4daf4a',
+  '#984ea3',
+  '#a65628',
+  '#ffff33',
+  '#e41a1c',
+  '#f781bf',
+  '#ff7f00',
+  '#999999',
+];
 
 export const getChartDataset = (
   weaponKey: WeaponKey,
-  curveKey: string = "base",
+  curveKey: string = 'base',
   limitToKilled: boolean = false,
-  fortified: boolean = false
+  fortified: boolean = false,
+  index: number = 0
 ): ChartDataset | null => {
   const weapon = weapons[weaponKey];
   let curve = weapon.curves[curveKey];
   if (!curve) {
     return null;
   }
+
+  console.log('index', index);
 
   if (fortified) {
     // Damage reduced by 15%, rounded down
@@ -128,7 +148,8 @@ export const getChartDataset = (
   }
 
   const dotColor = ammoColors[weapon.ammo];
-  const lineColor = variantColors[curveKey] || "black";
+  // const lineColor = variantColors[curveKey] || 'black';
+  const lineColor = colors[index % colors.length];
 
   let label = weapon.name;
   if (Object.keys(weapon.curves).length > 1) {
@@ -137,11 +158,12 @@ export const getChartDataset = (
 
   return {
     label,
+    borderWidth: 2,
     borderColor: lineColor,
     backgroundColor: lineColor,
+    pointBorderWidth: 1,
     pointBackgroundColor: dotColor,
-    pointBorderColor: dotColor,
-    borderWidth: 1,
+    pointBorderColor: lineColor,
     data: curve.map(([x, y]) => ({ x, y })),
     stepped: true,
   };
@@ -153,6 +175,8 @@ export const selectionsToDatasets = (
 ): ChartDataset[] => {
   const datasets: ChartDataset[] = [];
 
+  let i = 0;
+
   let wk: WeaponKey;
   for (wk in selections) {
     const selection = selections[wk];
@@ -161,15 +185,16 @@ export const selectionsToDatasets = (
     // Skip if disabled
     if (!selection.enabled) continue;
 
-    const variants = Object.keys(options).filter((k) => options[k]);
+    const variants = Object.keys(options).filter(k => options[k]);
 
-    variants.forEach((k) => {
-      const ds = getChartDataset(wk, k, limitToKilled, fortified);
+    variants.forEach(k => {
+      const ds = getChartDataset(wk, k, limitToKilled, fortified, i);
 
       if (!ds) {
-        console.error("Could not get dataset for", wk, k);
+        console.error('Could not get dataset for', wk, k);
       } else {
         datasets.push(ds);
+        i++;
       }
     });
   }
