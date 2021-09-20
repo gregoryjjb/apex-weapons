@@ -25,10 +25,10 @@
   };
 
   const resizeChart = () => {
-    console.log('resizing');
-    sizer.style.width = container.offsetWidth + 'px';
-    sizer.style.height = container.offsetHeight + 'px';
-  }
+    console.log("resizing");
+    sizer.style.width = container.offsetWidth + "px";
+    sizer.style.height = container.offsetHeight + "px";
+  };
 
   // @ts-ignore
   $: datasets, updateChart();
@@ -51,6 +51,7 @@
               display: true,
               text: "Time (seconds)",
             },
+            // min: 250,
           },
           y: {
             type: "linear",
@@ -74,12 +75,28 @@
             ],
           },
           legend: {
-            position: 'top',
+            position: "top",
             labels: {
               boxWidth: 10,
               boxHeight: 10,
-            }
-          }
+            },
+          },
+          tooltip: {
+            displayColors: false,
+            backgroundColor: "rgb(255,0,0))",
+            callbacks: {
+              title: (item) => item[0].dataset.label || "",
+              label: (item) =>
+                `${item.parsed.y} @ ${item.parsed.x.toLocaleString("en-EN", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2,
+                })}s`,
+              // labelColor: (context) => ({
+              //   backgroundColor: 'rgb(255, 0, 0)',
+              //   borderColor: "red",
+              // }),
+            },
+          },
         },
       },
     });
@@ -90,7 +107,7 @@
     resizeChart();
     updateChart();
 
-    window.addEventListener('resize', resizeChart);
+    window.addEventListener("resize", resizeChart);
   });
 </script>
 

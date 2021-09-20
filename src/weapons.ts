@@ -161,6 +161,14 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     curveName: key => (key === 'revved' ? 'revved up' : 'base'),
   },
+  '3030': {
+    name: '3030 Repeater',
+    ammo: AmmoType.Heavy,
+    curves: {
+      base: simple(42, 139, 12),
+      charged: simple(57, 55.56, 12),
+    },
+  },
   // Energy
   havoc: {
     name: 'HAVOC Rifle',
@@ -277,16 +285,39 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Alternator SMG',
     ammo: AmmoType.Heirloom,
     curves: {
-      base: [
-        [0, 22],
-        [0.1, 44],
-        [0.2, 66],
-        [0.3, 88],
-        [0.4, 100],
-        [0.5, 122],
-        [0.6, 144],
-      ] as DamageCurve,
+      red: (() => {
+        let curve: DamageCurve = [];
+        const magSize = 27;
+        const delta = (1 / 600) * 60;
+        let damage = 22;
+        let cumDamage = 0;
+
+        for (let i = 0; i < magSize; i++) {
+          if (cumDamage > 125) damage = 16;
+          cumDamage += damage;
+          curve.push([delta * i, cumDamage]);
+        }
+
+        return curve;
+      })(),
+      purple: (() => {
+        let curve: DamageCurve = [];
+        const magSize = 27;
+        const delta = (1 / 600) * 60;
+        let damage = 22;
+        let cumDamage = 0;
+
+        for (let i = 0; i < magSize; i++) {
+          if (cumDamage > 100) damage = 16;
+          cumDamage += damage;
+          curve.push([delta * i, cumDamage]);
+          if (cumDamage >= 200) break;
+        }
+
+        return curve;
+      })(),
     },
+    curveName: key => `vs ${key} shield`,
   },
   spitfire: {
     name: 'Spitfire',
