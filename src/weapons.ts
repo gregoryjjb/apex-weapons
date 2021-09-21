@@ -256,7 +256,29 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Charge Rifle',
     ammo: AmmoType.Sniper,
     curves: {
-      base: simple(90, 26, 4),
+      base: (() => {
+        const curve: DamageCurve = [];
+        let cumDamage = 0;
+        let beamStartTime = 0;
+
+        for (let i = 0; i < 4; i++) {
+          // Charge
+          for (let j = 0; j < 15; j++) {
+            const time = beamStartTime + 0.033 * j; // "sustained_discharge_pulse_frequency"
+            cumDamage += 3;
+            curve.push([time, cumDamage]);
+          }
+  
+          // Beam
+          beamStartTime += 0.48; // "sustained_discharge_duration"
+          cumDamage += 45;
+          curve.push([beamStartTime, cumDamage]);
+
+          beamStartTime += (0.92 + 0.1); // charge_cooldown_time + charge_cooldown_delay
+        }
+
+        return curve;
+      })(),
     },
   },
   longbow: {
