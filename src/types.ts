@@ -24,4 +24,6 @@ export type Weapon = {
   };
   curves: DamageCurveSet;
   curveName?: (key: string) => string;
+  /** Headshot multiplier */
+  headshot: number;
 };

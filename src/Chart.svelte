@@ -9,10 +9,11 @@
   export let selections: WeaponSelections;
   export let limitToKilled: boolean = false;
   export let fortified: boolean = false;
+  export let headshots: boolean = false;
 
   let canvas, container, sizer;
 
-  $: datasets = selectionsToDatasets(selections, { limitToKilled, fortified });
+  $: datasets = selectionsToDatasets(selections, { limitToKilled, fortified, headshots });
   // $: console.log("datasets", datasets);
 
   let theChart: Chart;

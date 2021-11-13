@@ -12,6 +12,7 @@
   const selections = storage.mergeSelections();
   let limitToKilled = true;
   let fortified = false;
+  let headshots = false;
 
   const handleWeaponSelected = (weapon) => (e) => {
     // storage.saveSelections(selections);
@@ -139,10 +140,14 @@
           <input type="checkbox" bind:checked={fortified} />
           Fortified legends
         </label>
+        <label>
+          <input type="checkbox" bind:checked={headshots} />
+          Headshots
+        </label>
       </div>
     </div>
     <div class="right">
-      <Chart {selections} {limitToKilled} {fortified} />
+      <Chart {selections} {limitToKilled} {fortified} {headshots} />
     </div>
   </div>
 </main>

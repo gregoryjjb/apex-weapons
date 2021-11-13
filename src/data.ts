@@ -122,11 +122,21 @@ const colors = [
   '#999999',
 ];
 
+type DatasetConfig = {
+  weaponKey: WeaponKey;
+  curveKey: string;
+  limitToKilled: boolean;
+  fortified: boolean;
+  headshot: boolean;
+  index: number;
+};
+
 export const getChartDataset = (
   weaponKey: WeaponKey,
   curveKey: string = 'base',
   limitToKilled: boolean = false,
   fortified: boolean = false,
+  headshot: boolean = false,
   index: number = 0
 ): ChartDataset | null => {
   const weapon = weapons[weaponKey];
@@ -136,6 +146,11 @@ export const getChartDataset = (
   }
 
   console.log('index', index);
+
+  // let headshot = true; // @TODO make an argument
+  if (headshot) {
+    curve = curve.map(([x, y]) => [x, y * weapon.headshot]);
+  }
 
   if (fortified) {
     // Damage reduced by 15%, rounded down
@@ -171,7 +186,7 @@ export const getChartDataset = (
 
 export const selectionsToDatasets = (
   selections: WeaponSelections,
-  { limitToKilled = false, fortified = false } = {}
+  { limitToKilled = false, fortified = false, headshots = false } = {}
 ): ChartDataset[] => {
   const datasets: ChartDataset[] = [];
 
@@ -188,7 +203,7 @@ export const selectionsToDatasets = (
     const variants = Object.keys(options).filter(k => options[k]);
 
     variants.forEach(k => {
-      const ds = getChartDataset(wk, k, limitToKilled, fortified, i);
+      const ds = getChartDataset(wk, k, limitToKilled, fortified, headshots, i);
 
       if (!ds) {
         console.error('Could not get dataset for', wk, k);

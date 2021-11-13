@@ -88,6 +88,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: simple(14, 810, 28),
       // anvil: simple(2.5 * 14, ) what is RPM in anvil?
     },
+    headshot: 1.75,
   },
   r99: {
     name: 'R-99 SMG',
@@ -95,6 +96,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(11, 1080, 27),
     },
+    headshot: 1.5,
   },
   g7: {
     name: 'G7 Scout',
@@ -102,6 +104,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(34, 240, 20),
     },
+    headshot: 1.75,
   },
   re45: {
     name: 'RE-45 Auto',
@@ -109,6 +112,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(12, 780, 25),
     },
+    headshot: 1.5,
   },
   p2020: {
     name: 'P2020',
@@ -116,6 +120,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(18, 420, 21),
     },
+    headshot: 1.5,
   },
   // Heavy
   flatline: {
@@ -130,6 +135,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(19, 600, 30),
     },
+    headshot: 1.75,
   },
   wingman: {
     name: 'Wingman',
@@ -137,6 +143,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(45, 156, 9),
     },
+    headshot: 2.15,
   },
   prowler: {
     name: 'Prowler Burst PDW',
@@ -144,6 +151,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: burst(14, 1260, 5, 0.24, 7),
     },
+    headshot: 1.5,
   },
   hemlock: {
     name: 'Hemlock Burst AR',
@@ -151,6 +159,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: burst(20, 930, 3, 0.28, 10),
     },
+    headshot: 1.75,
   },
   rampage: {
     name: 'Rampage',
@@ -160,6 +169,7 @@ const weaponsTemp: Record<string, Weapon> = {
       revved: simple(28, 390, 40),
     },
     curveName: key => (key === 'revved' ? 'revved up' : 'base'),
+    headshot: 1.5,
   },
   '3030': {
     name: '3030 Repeater',
@@ -168,6 +178,7 @@ const weaponsTemp: Record<string, Weapon> = {
       base: simple(42, 139, 12),
       charged: simple(57, 55.56, 12),
     },
+    headshot: 1.75,
   },
   // Energy
   havoc: {
@@ -179,6 +190,7 @@ const weaponsTemp: Record<string, Weapon> = {
       turbo: simple(18, 672, 24, 0),
     },
     curveName: key => (key === 'turbo' ? 'turbocharged' : key),
+    headshot: 1.75,
   },
   volt: {
     name: 'Volt SMG',
@@ -186,6 +198,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(15, 720, 26),
     },
+    headshot: 1.5,
   },
   lstar: {
     name: 'L-STAR EMG',
@@ -193,6 +206,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(18, 600, 26),
     },
+    headshot: 1.75,
   },
   // Shotguns
   eva8: {
@@ -208,6 +222,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 151,
     }),
     curveName: key => `${key} bolt`,
+    headshot: 1.25,
   },
   peacekeeper: {
     name: 'Peacekeeper',
@@ -222,6 +237,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 51,
     }),
     curveName: key => `${key} bolt`,
+    headshot: 1.25,
   },
   mastiff: {
     name: 'Mastiff Shotgun',
@@ -236,6 +252,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 79,
     }),
     curveName: key => `${key} bolt`,
+    headshot: 1.25,
   },
   mozambique: {
     name: 'Mozambique Shotgun',
@@ -250,6 +267,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 179,
     }),
     curveName: key => `${key} bolt`,
+    headshot: 1.25,
   },
   // Snipers
   chargeRifle: {
@@ -280,6 +298,7 @@ const weaponsTemp: Record<string, Weapon> = {
         return curve;
       })(),
     },
+    headshot: 1.25,
   },
   longbow: {
     name: 'Longbow DMR',
@@ -287,6 +306,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(60, 78, 12),
     },
+    headshot: 2.15,
   },
   sentinel: {
     name: 'Sentinel',
@@ -294,6 +314,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(70, 31, 7),
     },
+    headshot: 2,
   },
   // Care package weapons
   kraber: {
@@ -302,6 +323,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       base: simple(145, 25, 4),
     },
+    headshot: 3,
   },
   alternator: {
     name: 'Alternator SMG',
@@ -340,6 +362,7 @@ const weaponsTemp: Record<string, Weapon> = {
       })(),
     },
     curveName: key => `vs ${key} shield`,
+    headshot: 1.5, // @TODO this is inaccurate because of the shield thing
   },
   spitfire: {
     name: 'Spitfire',
@@ -347,6 +370,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(19, 540, 55),
     },
+    headshot: 1.75,
   },
   tripleTake: {
     name: 'Triple Take',
@@ -354,6 +378,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(69, 78, 9),
     },
+    headshot: 2,
   },
 } as const;
 
