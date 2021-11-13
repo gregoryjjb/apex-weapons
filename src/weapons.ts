@@ -99,10 +99,11 @@ const weaponsTemp: Record<string, Weapon> = {
     headshot: 1.5,
   },
   g7: {
+    // @TODO: add double tap
     name: 'G7 Scout',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(34, 240, 20),
+      purple: simple(36, 240, 20),
     },
     headshot: 1.75,
   },
@@ -150,6 +151,14 @@ const weaponsTemp: Record<string, Weapon> = {
     ammo: AmmoType.Heavy,
     curves: {
       purple: burst(14, 1260, 5, 0.24, 7),
+    },
+    headshot: 1.5,
+  },
+  car: {
+    name: 'C.A.R. SMG',
+    ammo: AmmoType.Heavy,
+    curves: {
+      purple: simple(13, 930, 27),
     },
     headshot: 1.5,
   },
@@ -204,7 +213,15 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'L-STAR EMG',
     ammo: AmmoType.Energy,
     curves: {
-      purple: simple(18, 600, 26),
+      purple: simple(17, 600, 26),
+    },
+    headshot: 1.75,
+  },
+  tripleTake: {
+    name: 'Triple Take',
+    ammo: AmmoType.Energy,
+    curves: {
+      purple: simple(69, 72, 9),
     },
     headshot: 1.75,
   },
@@ -216,10 +233,10 @@ const weaponsTemp: Record<string, Weapon> = {
       63,
       8
     )({
-      base: 126,
-      white: 139,
-      blue: 145,
-      purple: 151,
+      base: 120,
+      white: 132,
+      blue: 138,
+      purple: 144,
     }),
     curveName: key => `${key} bolt`,
     headshot: 1.25,
@@ -286,13 +303,13 @@ const weaponsTemp: Record<string, Weapon> = {
             cumDamage += 3;
             curve.push([time, cumDamage]);
           }
-  
+
           // Beam
           beamStartTime += 0.48; // "sustained_discharge_duration"
           cumDamage += 45;
           curve.push([beamStartTime, cumDamage]);
 
-          beamStartTime += (0.92 + 0.1); // charge_cooldown_time + charge_cooldown_delay
+          beamStartTime += 0.92 + 0.1; // charge_cooldown_time + charge_cooldown_delay
         }
 
         return curve;
@@ -304,7 +321,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Longbow DMR',
     ammo: AmmoType.Sniper,
     curves: {
-      purple: simple(60, 78, 12),
+      purple: simple(55, 78, 12),
     },
     headshot: 2.15,
   },
@@ -371,14 +388,6 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: simple(19, 540, 55),
     },
     headshot: 1.75,
-  },
-  tripleTake: {
-    name: 'Triple Take',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      purple: simple(69, 78, 9),
-    },
-    headshot: 2,
   },
 } as const;
 

@@ -7,8 +7,6 @@
   import type { AmmoType } from "./types";
   import type { WeaponKey } from "./weapons";
 
-  export let name: string;
-
   const selections = storage.mergeSelections();
   let limitToKilled = true;
   let fortified = false;
@@ -142,7 +140,7 @@
         </label>
         <label>
           <input type="checkbox" bind:checked={headshots} />
-          Headshots
+          Headshots (not accurate with the Alternator)
         </label>
       </div>
     </div>
