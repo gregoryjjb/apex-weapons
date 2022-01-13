@@ -174,8 +174,8 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Rampage',
     ammo: AmmoType.Heavy,
     curves: {
-      base: simple(28, 300, 40),
-      revved: simple(28, 390, 40),
+      base: simple(26, 300, 40),
+      revved: simple(26, 390, 40),
     },
     curveName: key => (key === 'revved' ? 'revved up' : 'base'),
     headshot: 1.5,
