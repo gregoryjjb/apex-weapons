@@ -79,6 +79,7 @@ export type WeaponSelections = {
   };
 };
 
+// See bottom of file for reserved words!
 const weaponsTemp: Record<string, Weapon> = {
   // Light
   r301: {
@@ -97,15 +98,6 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: simple(11, 1080, 27),
     },
     headshot: 1.5,
-  },
-  g7: {
-    // @TODO: add double tap
-    name: 'G7 Scout',
-    ammo: AmmoType.Light,
-    curves: {
-      purple: simple(36, 240, 20),
-    },
-    headshot: 1.75,
   },
   re45: {
     name: 'RE-45 Auto',
@@ -389,9 +381,46 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
+  g7: {
+    // @TODO: add double tap
+    name: 'G7 Scout',
+    ammo: AmmoType.Heirloom,
+    curves: {
+      purple: simple(36, 240, 20),
+    },
+    headshot: 2,
+  },
 } as const;
 
 export type WeaponKey = keyof typeof weaponsTemp;
 
 const weapons: Record<WeaponKey, Weapon> = weaponsTemp;
 export default weapons;
+
+// Validate Weapons config; some words are reserved!
+// @TODO only do this in development somehow?
+const reservedCurves = ['b', 'w', 'bl', 'p'];
+const alphanum = /^[a-z0-9]+$/i;
+
+let k: WeaponKey;
+for (k in weapons) {
+  const weapon = weapons[k];
+
+  if (!k.match(alphanum)) {
+    throw new Error(`Weapon '${k}' must be only alphanumeric characters`);
+  }
+
+  for (let c in weapon.curves) {
+    if (!c.match(alphanum)) {
+      throw new Error(
+        `Curve name '${c}' on weapon '${k}' must be only alphanumeric characters`
+      );
+    }
+
+    if (reservedCurves.includes(c)) {
+      throw new Error(
+        `Reserved word '${c}' used as curve key in weapon '${k}'`
+      );
+    }
+  }
+}

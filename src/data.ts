@@ -145,8 +145,6 @@ export const getChartDataset = (
     return null;
   }
 
-  console.log('index', index);
-
   // let headshot = true; // @TODO make an argument
   if (headshot) {
     curve = curve.map(([x, y]) => [x, y * weapon.headshot]);
