@@ -1,22 +1,24 @@
 <script lang="ts">
-  import Chart from "./Chart.svelte";
-  import { ammoColors, buildSelectionData, getWeaponCurveName } from "./data";
-  import * as storage from "./storage";
-  import weapons from "./weapons";
+  import Chart from './Chart.svelte';
+  import Button from './Button.svelte';
+  import { ammoColors, buildSelectionData, getWeaponCurveName } from '../data';
+  import * as storage from '../storage';
+  import weapons from '../weapons';
 
-  import type { AmmoType } from "./types";
-  import type { WeaponKey } from "./weapons";
+  import type { AmmoType } from '../types';
+  import type { WeaponKey } from '../weapons';
+  import Header from './Header.svelte';
 
   const selections = storage.mergeSelections();
   let limitToKilled = true;
   let fortified = false;
   let headshots = false;
 
-  const handleWeaponSelected = (weapon) => (e) => {
+  const handleWeaponSelected = weapon => e => {
     // storage.saveSelections(selections);
   };
 
-  const handleOptionSelected = (weapon, option) => (e) => {
+  const handleOptionSelected = (weapon, option) => e => {
     if (!hasOptions(weapon)) {
       // Can't uncheck if there's only one option
       selections[weapon].options[option] = true;
@@ -37,7 +39,7 @@
   };
 
   const selectionKeys = (): WeaponKey[] => {
-    return Object.keys(selections).map((s) => s as WeaponKey);
+    return Object.keys(selections).map(s => s as WeaponKey);
   };
 
   const getOptionName = (weapon: WeaponKey, option: string): string => {
@@ -67,18 +69,13 @@
 </script>
 
 <main>
-  <div class="header">
-    <h1>
-      <img src="/images/apex-legends.svg" alt="Apex Legends" />
-      <span>Weapon damage visualization</span>
-    </h1>
-  </div>
+  <Header />
   <div class="columns">
     <div class="left">
       <div class="weapon-selections">
         <div class="weapons-header">
           <h2>Weapons</h2>
-          <button on:click={clearSelections}>Clear selections</button>
+          <Button on:click={clearSelections}>Clear selections</Button>
         </div>
         <ul class="category-list">
           {#each weaponGroups as group}
@@ -161,45 +158,6 @@
     flex-direction: column;
   }
 
-  .header {
-    padding: 1rem;
-  }
-
-  .header > h1 {
-    /* color: #ff3e00; */
-    /* text-transform: uppercase; */
-    font-size: 2rem;
-    font-weight: 200;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .header > h1 > img {
-    height: 3rem;
-    vertical-align: middle;
-    margin-right: 1rem;
-  }
-
-  .header > h1 > span {
-    vertical-align: middle;
-  }
-
-  @media (max-width: 720px) {
-    .header {
-      padding: 0.5rem;
-    }
-
-    .header > h1 {
-      font-size: 1.25rem;
-    }
-
-    .header > h1 > img {
-      height: 2rem;
-      margin-right: 0.5rem;
-    }
-  }
-
   h2 {
     margin: 0;
     color: #444;
@@ -217,9 +175,15 @@
   .left {
     text-align: left;
     flex-shrink: 0;
-    width: 16rem;
+    width: 20rem;
     padding: 1rem 2rem;
     overflow-y: auto;
+  }
+
+  @media (max-width: 720px) {
+    .left {
+      border-bottom: 1px solid var(--gray-300);
+    }
   }
 
   .right {
@@ -296,7 +260,7 @@
       width: 50%;
       padding: 0.5rem;
     }
-    
+
     .category-item-display {
       padding-left: 0.5rem;
       padding-top: 0.25rem;

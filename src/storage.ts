@@ -108,6 +108,9 @@ export const saveSelections = (selections: WeaponSelections) => {
 export const loadSelections = (): Partial<WeaponSelections> | null => {
   try {
     const raw = location.hash.replace(/^#/, '');
+
+    if (!raw) return null;
+
     const decoded = new URLSearchParams(raw);
     const parsed = unmarshalSelections(decoded);
     // const decoded = decodeURIComponent(raw);

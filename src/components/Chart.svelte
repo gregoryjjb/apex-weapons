@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Chart from "./chart";
+  import Chart from "../chart";
 
-  import { selectionsToDatasets } from "./data";
+  import { selectionsToDatasets } from "../data";
 
-  import type { WeaponSelections } from "./data";
+  import type { WeaponSelections } from "../data";
 
   export let selections: WeaponSelections;
   export let limitToKilled: boolean = false;
