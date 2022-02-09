@@ -99,11 +99,20 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.5,
   },
+  alternator: {
+    name: 'Alternator SMG',
+    ammo: AmmoType.Light,
+    curves: {
+      purple: simple(16, 600, 27),
+    },
+    curveName: key => `vs ${key} shield`,
+    headshot: 1.5,
+  },
   re45: {
     name: 'RE-45 Auto',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(12, 780, 25),
+      base: simple(12, 780, 25),
     },
     headshot: 1.5,
   },
@@ -111,7 +120,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'P2020',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(18, 420, 21),
+      base: simple(18, 420, 21),
     },
     headshot: 1.5,
   },
@@ -126,7 +135,7 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 30,
     },
     curves: {
-      purple: simple(19, 600, 30),
+      purple: simple(18, 600, 30),
     },
     headshot: 1.75,
   },
@@ -193,14 +202,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curveName: key => (key === 'turbo' ? 'turbocharged' : key),
     headshot: 1.75,
   },
-  volt: {
-    name: 'Volt SMG',
-    ammo: AmmoType.Energy,
-    curves: {
-      purple: simple(15, 720, 26),
-    },
-    headshot: 1.5,
-  },
+  
   lstar: {
     name: 'L-STAR EMG',
     ammo: AmmoType.Energy,
@@ -213,7 +215,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Triple Take',
     ammo: AmmoType.Energy,
     curves: {
-      purple: simple(69, 72, 9),
+      purple: simple(63, 72, 9),
     },
     headshot: 1.75,
   },
@@ -334,45 +336,6 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 3,
   },
-  alternator: {
-    name: 'Alternator SMG',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      red: (() => {
-        let curve: DamageCurve = [];
-        const magSize = 27;
-        const delta = (1 / 600) * 60;
-        let damage = 22;
-        let cumDamage = 0;
-
-        for (let i = 0; i < magSize; i++) {
-          if (cumDamage > 125) damage = 16;
-          cumDamage += damage;
-          curve.push([delta * i, cumDamage]);
-        }
-
-        return curve;
-      })(),
-      purple: (() => {
-        let curve: DamageCurve = [];
-        const magSize = 27;
-        const delta = (1 / 600) * 60;
-        let damage = 22;
-        let cumDamage = 0;
-
-        for (let i = 0; i < magSize; i++) {
-          if (cumDamage > 100) damage = 16;
-          cumDamage += damage;
-          curve.push([delta * i, cumDamage]);
-          if (cumDamage >= 200) break;
-        }
-
-        return curve;
-      })(),
-    },
-    curveName: key => `vs ${key} shield`,
-    headshot: 1.5, // @TODO this is inaccurate because of the shield thing
-  },
   spitfire: {
     name: 'Spitfire',
     ammo: AmmoType.Heirloom,
@@ -389,6 +352,14 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: simple(36, 240, 20),
     },
     headshot: 2,
+  },
+  volt: {
+    name: 'Volt SMG',
+    ammo: AmmoType.Heirloom,
+    curves: {
+      purple: simple(17, 720, 26),
+    },
+    headshot: 1.5,
   },
 } as const;
 
