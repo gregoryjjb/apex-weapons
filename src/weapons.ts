@@ -53,6 +53,27 @@ const burst = (
   return points;
 };
 
+/**
+ * Take the exact frames of a video (starting at zero) the gun shot at and
+ * turn it into a damage curve
+ * @param frames array of video frame numbers
+ * @param damage damage the weapon does per shot
+ * @returns the damage curve
+ */
+const fromFrames = (frames: number[], damage: number, fps: number = 120): DamageCurve => {
+  const curve: DamageCurve = [];
+  let cumDamage = 0;
+  let frameTime = 1 / fps;
+
+  for (let frame of frames) {
+    cumDamage += damage;
+    const time = frameTime * frame;
+    curve.push([time, cumDamage]);
+  }
+
+  return curve;
+};
+
 type VariantSet = {
   base: number;
   [optional: string]: number;
@@ -202,7 +223,31 @@ const weaponsTemp: Record<string, Weapon> = {
     curveName: key => (key === 'turbo' ? 'turbocharged' : key),
     headshot: 1.75,
   },
-  
+  devotion: {
+    name: 'Devotion LMG',
+    ammo: AmmoType.Energy,
+    curves: {
+      base: fromFrames(
+        [
+          0, 24, 44, 61, 76, 90, 103, 115, 127, 137, 148, 158, 167, 176, 186,
+          194, 203, 211, 219, 227, 234, 243, 252, 259, 267, 275, 283, 291, 299,
+          307, 315, 323, 331, 339, 347, 354, 363, 372, 380, 388, 396, 404, 411,
+          419, 428, 435, 443, 451,
+        ],
+        16
+      ),
+      turbo: fromFrames(
+        [
+          0, 18, 33, 46, 58, 68, 78, 86, 96, 104, 112, 120, 128, 136, 144, 152,
+          160, 168, 176, 184, 192, 200, 209, 217, 224, 232, 240, 248, 256, 264,
+          272, 281, 288, 296, 303, 312, 320, 328, 336, 343, 351, 360, 367, 376,
+          383, 391, 400, 408,
+        ],
+        16
+      ),
+    },
+    headshot: 1.75,
+  },
   lstar: {
     name: 'L-STAR EMG',
     ammo: AmmoType.Energy,

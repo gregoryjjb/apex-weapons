@@ -137,7 +137,7 @@
         </label>
         <label>
           <input type="checkbox" bind:checked={headshots} />
-          Headshots (not accurate with the Alternator)
+          Headshots
         </label>
       </div>
     </div>
