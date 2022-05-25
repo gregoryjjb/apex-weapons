@@ -211,6 +211,14 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
+  spitfire: {
+    name: 'Spitfire',
+    ammo: AmmoType.Heavy,
+    curves: {
+      purple: simple(18, 540, 50),
+    },
+    headshot: 1.5,
+  },
   // Energy
   havoc: {
     name: 'HAVOC Rifle',
@@ -246,7 +254,7 @@ const weaponsTemp: Record<string, Weapon> = {
         16
       ),
     },
-    headshot: 1.75,
+    headshot: 1.5,
   },
   lstar: {
     name: 'L-STAR EMG',
@@ -254,7 +262,7 @@ const weaponsTemp: Record<string, Weapon> = {
     curves: {
       purple: simple(17, 600, 26),
     },
-    headshot: 1.75,
+    headshot: 1.5,
   },
   tripleTake: {
     name: 'Triple Take',
@@ -291,21 +299,6 @@ const weaponsTemp: Record<string, Weapon> = {
       white: 47,
       blue: 50,
       purple: 51,
-    }),
-    curveName: key => `${key} bolt`,
-    headshot: 1.25,
-  },
-  mastiff: {
-    name: 'Mastiff Shotgun',
-    ammo: AmmoType.Shotgun,
-    curves: rpmVariants(
-      11 * 8,
-      6
-    )({
-      base: 66,
-      white: 73,
-      blue: 76,
-      purple: 79,
     }),
     curveName: key => `${key} bolt`,
     headshot: 1.25,
@@ -377,17 +370,9 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Kraber .50-Cal Sniper',
     ammo: AmmoType.Heirloom,
     curves: {
-      base: simple(145, 25, 4),
+      base: simple(140, 25, 4),
     },
-    headshot: 3,
-  },
-  spitfire: {
-    name: 'Spitfire',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      purple: simple(19, 540, 55),
-    },
-    headshot: 1.75,
+    headshot: 2,
   },
   g7: {
     // @TODO: add double tap
@@ -405,6 +390,22 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: simple(17, 720, 26),
     },
     headshot: 1.5,
+  },
+  mastiff: {
+    name: 'Mastiff Shotgun',
+    ammo: AmmoType.Heirloom,
+    curves: rpmVariants(
+      14 * 8,
+      4
+    )({
+      // base: 66,
+      // white: 73,
+      // blue: 76,
+      // purple: 79,
+      base: 72,
+    }),
+    curveName: key => `${key} bolt`,
+    headshot: 1.25,
   },
 } as const;
 

@@ -145,12 +145,16 @@ export const getChartDataset = (
     return null;
   }
 
-  // let headshot = true; // @TODO make an argument
   if (headshot) {
-    curve = curve.map(([x, y]) => [x, y * weapon.headshot]);
+    // White helmet hardcoded right now, 20% reduction
+    const helmetReduction = 0.2;
+    curve = curve.map(([x, y]) => [
+      x,
+      y * (helmetReduction + (1 - helmetReduction) * weapon.headshot),
+    ]);
   }
 
-  if (fortified) {
+  if (fortified && !headshot) {
     // Damage reduced by 15%, rounded down
     curve = curve.map(([x, y]) => [x, Math.floor(y * 0.85)]);
   }

@@ -13,6 +13,9 @@
   let limitToKilled = true;
   let fortified = false;
   let headshots = false;
+  
+  // type Helmet = 'none' | 'white' | 'blue' | 'purple';
+  // let helmetTier: Helmet = 'none';
 
   const handleWeaponSelected = weapon => e => {
     // storage.saveSelections(selections);
@@ -23,8 +26,6 @@
       // Can't uncheck if there's only one option
       selections[weapon].options[option] = true;
     }
-
-    // storage.saveSelections(selections);
   };
 
   const clearSelections = () => {
@@ -36,16 +37,6 @@
 
   const hasOptions = (weapon: WeaponKey): boolean => {
     return Object.keys(selections[weapon].options).length > 1;
-  };
-
-  const selectionKeys = (): WeaponKey[] => {
-    return Object.keys(selections).map(s => s as WeaponKey);
-  };
-
-  const getOptionName = (weapon: WeaponKey, option: string): string => {
-    const w = weapons[weapon];
-    if (w.curveName !== undefined) return w.curveName(option);
-    return option;
   };
 
   const wghash: Partial<Record<AmmoType, WeaponKey[]>> = {};
@@ -137,8 +128,19 @@
         </label>
         <label>
           <input type="checkbox" bind:checked={headshots} />
-          Headshots
+          Headshots (white helm)
         </label>
+        <!-- {#if headshots}
+          <fieldset>
+            <legend>Helmet tier</legend>
+            {#each ['none', 'white', 'blue', 'purple'] as r}
+            <div class="radio">
+              <input type="radio" id={'radio-'+r} name="helmet-tier" bind:group={helmetTier} value={r}>
+              <label for={'radio-'+r}>{r}</label>
+            </div>
+            {/each}
+          </fieldset>
+        {/if} -->
       </div>
     </div>
     <div class="right">
