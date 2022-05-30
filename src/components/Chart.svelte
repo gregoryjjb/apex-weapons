@@ -3,17 +3,14 @@
   import Chart from "../chart";
 
   import { selectionsToDatasets } from "../data";
-
-  import type { WeaponSelections } from "../data";
+  import type { DamageOptions, WeaponSelections } from "../data";
 
   export let selections: WeaponSelections;
-  export let limitToKilled: boolean = false;
-  export let fortified: boolean = false;
-  export let headshots: boolean = false;
+  export let damageOptions: DamageOptions;
 
   let canvas, container, sizer;
 
-  $: datasets = selectionsToDatasets(selections, { limitToKilled, fortified, headshots });
+  $: datasets = selectionsToDatasets(selections, damageOptions);
   // $: console.log("datasets", datasets);
 
   let theChart: Chart;
@@ -26,7 +23,6 @@
   };
 
   const resizeChart = () => {
-    console.log("resizing");
     sizer.style.width = container.offsetWidth + "px";
     sizer.style.height = container.offsetHeight + "px";
   };

@@ -1,56 +1,8 @@
-import type { ChartDataset } from 'chart.js';
+import type { ChartDataset, ChartOptions } from 'chart.js';
 import type { WeaponKey } from './weapons';
 import type { AmmoType, DamageCurve, DamageCurveSet } from './types';
 
 import weapons from './weapons';
-
-const round = n => Math.round(n * 10000) / 10000;
-
-export const simple = (
-  damage: number,
-  rpm: number,
-  magazineSize: number,
-  delay: number = 0
-): DamageCurve => {
-  const deltaSeconds = (1 / rpm) * 60;
-
-  const damageOverTime: DamageCurve = [];
-
-  for (let i = 0; i < magazineSize; i++) {
-    const time = round(deltaSeconds * i) + delay;
-    const cumDamage = round(damage * (i + 1));
-
-    damageOverTime.push([time, cumDamage]);
-  }
-
-  return damageOverTime;
-};
-
-export const magazineVariants = (damage, rpm) => magMap => {
-  return Object.keys(magMap).map(name => {
-    return {
-      name,
-      curve: simple(damage, rpm, magMap[name]),
-    };
-  });
-};
-
-type VariantSet = {
-  base: number;
-  [optional: string]: number;
-};
-
-export const rpmVariants =
-  (damage: number, magazineSize: number) =>
-  (rpmMap: VariantSet): DamageCurveSet => {
-    const result: DamageCurveSet = { base: [] };
-
-    Object.keys(rpmMap).forEach(name => {
-      result[name] = simple(damage, rpmMap[name], magazineSize);
-    });
-
-    return result;
-  };
 
 export type WeaponSelections = {
   [key in WeaponKey]: {
@@ -60,6 +12,38 @@ export type WeaponSelections = {
       [opt: string]: boolean;
     };
   };
+};
+
+let helmetTiersTemp = ['none', 'white', 'blue', 'purple'] as const;
+export type HelmetTier = typeof helmetTiersTemp[number];
+export const helmetTiers: HelmetTier[] = [...helmetTiersTemp];
+
+const helmetDamageReduction: Record<HelmetTier, number> = {
+  none: 0,
+  white: 0.2,
+  blue: 0.5,
+  purple: 0.65,
+};
+
+export type DamageOptions = {
+  limitToKilled: boolean;
+  fortified: boolean;
+  headshots: boolean;
+  helmet: HelmetTier;
+};
+
+export const newDamageOptions = (): DamageOptions => {
+  return {
+    limitToKilled: true,
+    fortified: false,
+    headshots: false,
+    helmet: 'white',
+  };
+};
+
+export type Selections = {
+  weapons: WeaponSelections;
+  damage: DamageOptions;
 };
 
 export const buildSelectionData = (): WeaponSelections => {
@@ -134,9 +118,7 @@ type DatasetConfig = {
 export const getChartDataset = (
   weaponKey: WeaponKey,
   curveKey: string = 'base',
-  limitToKilled: boolean = false,
-  fortified: boolean = false,
-  headshot: boolean = false,
+  damageOpts: DamageOptions,
   index: number = 0
 ): ChartDataset | null => {
   const weapon = weapons[weaponKey];
@@ -145,21 +127,20 @@ export const getChartDataset = (
     return null;
   }
 
-  if (headshot) {
-    // White helmet hardcoded right now, 20% reduction
-    const helmetReduction = 0.2;
+  if (damageOpts.headshots) {
+    const helmetReduction = helmetDamageReduction[damageOpts.helmet];
     curve = curve.map(([x, y]) => [
       x,
       y * (helmetReduction + (1 - helmetReduction) * weapon.headshot),
     ]);
   }
 
-  if (fortified && !headshot) {
+  if (damageOpts.fortified && !damageOpts.headshots) {
     // Damage reduced by 15%, rounded down
     curve = curve.map(([x, y]) => [x, Math.floor(y * 0.85)]);
   }
 
-  if (limitToKilled) {
+  if (damageOpts.limitToKilled) {
     // Limit to red shields max
     curve = curve.filter((_, i) => !curve[i - 1] || curve[i - 1][1] < 225);
   }
@@ -188,7 +169,7 @@ export const getChartDataset = (
 
 export const selectionsToDatasets = (
   selections: WeaponSelections,
-  { limitToKilled = false, fortified = false, headshots = false } = {}
+  damageOpts: DamageOptions
 ): ChartDataset[] => {
   const datasets: ChartDataset[] = [];
 
@@ -205,7 +186,7 @@ export const selectionsToDatasets = (
     const variants = Object.keys(options).filter(k => options[k]);
 
     variants.forEach(k => {
-      const ds = getChartDataset(wk, k, limitToKilled, fortified, headshots, i);
+      const ds = getChartDataset(wk, k, damageOpts, i);
 
       if (!ds) {
         console.error('Could not get dataset for', wk, k);

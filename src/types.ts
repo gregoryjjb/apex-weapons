@@ -27,3 +27,5 @@ export type Weapon = {
   /** Headshot multiplier */
   headshot: number;
 };
+
+export type HelmetTier = 'none' | 'white' | 'blue' | 'purple';

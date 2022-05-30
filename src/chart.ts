@@ -31,7 +31,6 @@ const verticalLinePlugin = {
   },
 
   afterDatasetsDraw: function (chart, easing) {
-    console.log("After datasets draw");
     if (chart.config.lineAtIndex) {
       chart.config.lineAtIndex.forEach((pointIndex) =>
         this.renderVerticalLine(chart, pointIndex)

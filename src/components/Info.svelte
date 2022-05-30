@@ -18,7 +18,6 @@
 
   onMount(() => {
     window.addEventListener('keydown', escListener);
-    console.log('Listener added');
     return () => window.removeEventListener('keydown', escListener);
   });
 </script>

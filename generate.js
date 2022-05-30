@@ -99,4 +99,3 @@ const weapons = [
 
 // console.log(JSON.stringify(weapons, null, 2));
 // console.log(weapons[1])
-console.log(util.inspect(weapons, { showHidden: false, depth: null }))

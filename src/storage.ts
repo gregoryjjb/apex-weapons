@@ -1,6 +1,6 @@
-import { buildSelectionData, WeaponSelections } from './data';
-
 import type { WeaponKey } from './weapons';
+
+import { buildSelectionData, DamageOptions, WeaponSelections } from './data';
 
 // "Storage" is the URL basically
 
@@ -50,8 +50,6 @@ const marshalSelections = (selections: WeaponSelections): URLSearchParams => {
     params.append(key, enabledOptions);
   }
 
-  console.log(params.toString());
-
   return params;
 };
 
@@ -61,7 +59,7 @@ const unmarshalSelections = (
   const selections: Partial<WeaponSelections> = {};
 
   for (let [key, value] of params.entries()) {
-    if (key.match(/^conf\./)) {
+    if (key.match(/^c\./)) {
       console.warn('config storage not implemented');
       continue;
     }
@@ -81,8 +79,6 @@ const unmarshalSelections = (
     selections[key] = selection;
   }
 
-  console.log(selections);
-
   return selections;
 };
 
@@ -98,7 +94,6 @@ export const saveSelections = (selections: WeaponSelections) => {
   }
 
   const params = marshalSelections(selections);
-  unmarshalSelections(params);
 
   const url = new URL(window.location.toString());
   url.hash = params.toString(); //marshal(toSave);

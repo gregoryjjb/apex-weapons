@@ -1,4 +1,3 @@
-// import { rpmVariants } from "./data";
 import { AmmoType } from './types';
 
 import type { DamageCurve, DamageCurveSet, Weapon } from './types';
@@ -60,7 +59,11 @@ const burst = (
  * @param damage damage the weapon does per shot
  * @returns the damage curve
  */
-const fromFrames = (frames: number[], damage: number, fps: number = 120): DamageCurve => {
+const fromFrames = (
+  frames: number[],
+  damage: number,
+  fps: number = 120
+): DamageCurve => {
   const curve: DamageCurve = [];
   let cumDamage = 0;
   let frameTime = 1 / fps;
@@ -441,3 +444,22 @@ for (k in weapons) {
     }
   }
 }
+
+export const groupWeapons = (keys: WeaponKey[]) => {
+  const wghash: Partial<Record<AmmoType, WeaponKey[]>> = {};
+  let wk: WeaponKey;
+  for (wk of keys) {
+    const weapon = weapons[wk];
+    if (wghash[weapon.ammo]) {
+      wghash[weapon.ammo]?.push(wk);
+    } else {
+      wghash[weapon.ammo] = [wk];
+    }
+  }
+  const weaponGroups: Array<{ name: string; weapons: WeaponKey[] }> = [];
+  let ak: AmmoType;
+  for (ak in wghash) {
+    weaponGroups.push({ name: ak, weapons: wghash[ak]! });
+  }
+  return weaponGroups;
+};
