@@ -115,6 +115,23 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
+  spitfire: {
+    name: 'Spitfire',
+    ammo: AmmoType.Light,
+    curves: {
+      purple: simple(18, 540, 50),
+    },
+    headshot: 1.5,
+  },
+  g7: {
+    // @TODO: add double tap
+    name: 'G7 Scout',
+    ammo: AmmoType.Light,
+    curves: {
+      purple: simple(34, 240, 20),
+    },
+    headshot: 1.75,
+  },
   r99: {
     name: 'R-99 SMG',
     ammo: AmmoType.Light,
@@ -163,14 +180,6 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
-  wingman: {
-    name: 'Wingman',
-    ammo: AmmoType.Heavy,
-    curves: {
-      purple: simple(45, 156, 9),
-    },
-    headshot: 2.15,
-  },
   prowler: {
     name: 'Prowler Burst PDW',
     ammo: AmmoType.Heavy,
@@ -195,16 +204,6 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
-  rampage: {
-    name: 'Rampage',
-    ammo: AmmoType.Heavy,
-    curves: {
-      base: simple(26, 300, 40),
-      revved: simple(26, 390, 40),
-    },
-    curveName: key => (key === 'revved' ? 'revved up' : 'base'),
-    headshot: 1.5,
-  },
   '3030': {
     name: '3030 Repeater',
     ammo: AmmoType.Heavy,
@@ -214,15 +213,15 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 1.75,
   },
-  spitfire: {
-    name: 'Spitfire',
-    ammo: AmmoType.Heavy,
+  // Energy
+  volt: {
+    name: 'Volt SMG',
+    ammo: AmmoType.Energy,
     curves: {
-      purple: simple(18, 540, 50),
+      purple: simple(15, 720, 26),
     },
     headshot: 1.5,
   },
-  // Energy
   havoc: {
     name: 'HAVOC Rifle',
     ammo: AmmoType.Energy,
@@ -280,13 +279,13 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'EVA-8 Auto',
     ammo: AmmoType.Shotgun,
     curves: rpmVariants(
-      63,
+      7 * 8, // 56
       8
     )({
-      base: 120,
-      white: 132,
-      blue: 138,
-      purple: 144,
+      base: 138,
+      white: 152,
+      blue: 166,
+      purple: 179,
     }),
     curveName: key => `${key} bolt`,
     headshot: 1.25,
@@ -322,6 +321,14 @@ const weaponsTemp: Record<string, Weapon> = {
     headshot: 1.25,
   },
   // Snipers
+  wingman: {
+    name: 'Wingman',
+    ammo: AmmoType.Sniper,
+    curves: {
+      purple: simple(45, 156, 9),
+    },
+    headshot: 2.15,
+  },
   chargeRifle: {
     name: 'Charge Rifle',
     ammo: AmmoType.Sniper,
@@ -377,23 +384,6 @@ const weaponsTemp: Record<string, Weapon> = {
     },
     headshot: 2,
   },
-  g7: {
-    // @TODO: add double tap
-    name: 'G7 Scout',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      purple: simple(36, 240, 20),
-    },
-    headshot: 2,
-  },
-  volt: {
-    name: 'Volt SMG',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      purple: simple(17, 720, 26),
-    },
-    headshot: 1.5,
-  },
   mastiff: {
     name: 'Mastiff Shotgun',
     ammo: AmmoType.Heirloom,
@@ -405,10 +395,20 @@ const weaponsTemp: Record<string, Weapon> = {
       // white: 73,
       // blue: 76,
       // purple: 79,
-      base: 72,
+      base: 79, // Not sure this is correct? Wiki has 79, but I had 72 and patch notes said decreased
     }),
     curveName: key => `${key} bolt`,
     headshot: 1.25,
+  },
+  rampage: {
+    name: 'Rampage',
+    ammo: AmmoType.Heirloom,
+    curves: {
+      base: simple(28, 300, 40),
+      revved: simple(28, 390, 40),
+    },
+    curveName: key => (key === 'revved' ? 'revved up' : 'base'),
+    headshot: 1.5,
   },
 } as const;
 
