@@ -110,8 +110,8 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'R-301 Carbine',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(14, 810, 28),
-      // anvil: simple(2.5 * 14, ) what is RPM in anvil?
+      base: simple(14, 810, 28),
+      anvil: simple(32, 210, 14),
     },
     headshot: 1.75,
   },
@@ -128,7 +128,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'G7 Scout',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(34, 240, 20),
+      base: simple(32, 240, 20),
     },
     headshot: 1.75,
   },
@@ -177,7 +177,8 @@ const weaponsTemp: Record<string, Weapon> = {
       purple: 30,
     },
     curves: {
-      purple: simple(18, 600, 30),
+      base: simple(18, 600, 30),
+      anvil: simple(39, 172, 15),
     },
     headshot: 1.75,
   },
@@ -185,7 +186,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Prowler Burst PDW',
     ammo: AmmoType.Heavy,
     curves: {
-      purple: burst(14, 1260, 5, 0.24, 7),
+      purple: burst(15, 1260, 5, 0.24, 7),
     },
     headshot: 1.5,
   },
