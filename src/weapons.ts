@@ -136,7 +136,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'R-99 SMG',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(11, 1080, 27),
+      purple: simple(11, 1080, 28),
     },
     headshot: 1.5,
   },
@@ -153,7 +153,8 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'RE-45 Auto',
     ammo: AmmoType.Light,
     curves: {
-      base: simple(12, 780, 25),
+      // Does not include disrupter
+      base: simple(14, 780, 25),
     },
     headshot: 1.5,
   },
@@ -228,7 +229,7 @@ const weaponsTemp: Record<string, Weapon> = {
     // magazineSizes: {},
     curves: {
       base: simple(18, 672, 24, 0.5),
-      turbo: simple(18, 672, 24, 0),
+      turbo: simple(17, 672, 24, 0),
     },
     curveName: key => (key === 'turbo' ? 'turbocharged' : key),
     headshot: 1.75,
@@ -253,7 +254,7 @@ const weaponsTemp: Record<string, Weapon> = {
           272, 281, 288, 296, 303, 312, 320, 328, 336, 343, 351, 360, 367, 376,
           383, 391, 400, 408,
         ],
-        16
+        15
       ),
     },
     headshot: 1.5,
@@ -270,7 +271,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Triple Take',
     ammo: AmmoType.Energy,
     curves: {
-      purple: simple(63, 72, 9),
+      purple: simple(63, 81, 9),
     },
     headshot: 1.75,
   },
@@ -388,8 +389,8 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'Mastiff Shotgun',
     ammo: AmmoType.Heirloom,
     curves: rpmVariants(
-      14 * 8,
-      4
+      11 * 8,
+      5
     )({
       // base: 66,
       // white: 73,
