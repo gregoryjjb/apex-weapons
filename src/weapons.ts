@@ -110,7 +110,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'R-301 Carbine',
     ammo: AmmoType.Light,
     curves: {
-      base: simple(14, 810, 28),
+      base: simple(13, 810, 28),
       anvil: simple(32, 210, 14),
     },
     headshot: 1.75,
@@ -136,7 +136,7 @@ const weaponsTemp: Record<string, Weapon> = {
     name: 'R-99 SMG',
     ammo: AmmoType.Light,
     curves: {
-      purple: simple(11, 1080, 28),
+      purple: simple(12, 1080, 28),
     },
     headshot: 1.5,
   },
@@ -200,11 +200,11 @@ const weaponsTemp: Record<string, Weapon> = {
   },
   hemlock: {
     name: 'Hemlock Burst AR',
-    ammo: AmmoType.Heavy,
+    ammo: AmmoType.Heirloom,
     curves: {
-      purple: burst(20, 930, 3, 0.28, 10),
+      purple: burst(23, 930, 3, 0.28, 10),
     },
-    headshot: 1.75,
+    headshot: 1.8,
   },
   '3030': {
     name: '3030 Repeater',
@@ -214,6 +214,16 @@ const weaponsTemp: Record<string, Weapon> = {
       charged: simple(57, 55.56, 12),
     },
     headshot: 1.75,
+  },
+  rampage: {
+    name: 'Rampage',
+    ammo: AmmoType.Heavy,
+    curves: {
+      base: simple(26, 300, 40),
+      revved: simple(26, 390, 40),
+    },
+    curveName: key => (key === 'revved' ? 'revved up' : 'base'),
+    headshot: 1.5,
   },
   // Energy
   volt: {
@@ -401,16 +411,6 @@ const weaponsTemp: Record<string, Weapon> = {
     }),
     curveName: key => `${key} bolt`,
     headshot: 1.25,
-  },
-  rampage: {
-    name: 'Rampage',
-    ammo: AmmoType.Heirloom,
-    curves: {
-      base: simple(28, 300, 40),
-      revved: simple(28, 390, 40),
-    },
-    curveName: key => (key === 'revved' ? 'revved up' : 'base'),
-    headshot: 1.5,
   },
 } as const;
 

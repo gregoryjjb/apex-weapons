@@ -1,4 +1,4 @@
-import type { ChartDataset, ChartOptions } from 'chart.js';
+import type { ChartDataset, ChartOptions, ScatterDataPoint } from 'chart.js';
 import type { WeaponKey } from './weapons';
 import type { AmmoType, DamageCurve, DamageCurveSet } from './types';
 
@@ -167,12 +167,23 @@ export const getChartDataset = (
   };
 };
 
+export const getTTK = (dataset: ChartDataset): number => {
+  for (let point of dataset.data) {
+    const p = point as ScatterDataPoint;
+    if (p.y >= 225) {
+      return p.x;
+    }
+  }
+
+  return Number.POSITIVE_INFINITY;
+};
+
 export const selectionsToDatasets = (
   selections: WeaponSelections,
   damageOpts: DamageOptions
 ): ChartDataset[] => {
-  const datasets: ChartDataset[] = [];
-
+  // Tuples of TTK and dataset
+  const sortableDatasets: [number, ChartDataset][] = [];
   let i = 0;
 
   let wk: WeaponKey;
@@ -191,13 +202,19 @@ export const selectionsToDatasets = (
       if (!ds) {
         console.error('Could not get dataset for', wk, k);
       } else {
-        datasets.push(ds);
+        const ttk = getTTK(ds);
+        console.log('TTK for', wk, ttk);
+
+        sortableDatasets.push([ttk, ds]);
         i++;
       }
     });
   }
 
-  return datasets;
+  // Sort by TTK
+  return sortableDatasets
+    .sort(([a], [b]) => a - b)
+    .map(([_, dataset]) => dataset);
 };
 
 // const ww = [
